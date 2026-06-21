@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude RTL Patcher — תיקון כיוון טקסט לעברית / ערבית</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .logo { font-size: 3rem; margin-bottom: 1rem; }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #58a6ff, #bc8cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: #8b949e;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      text-align: right;
+    }
+
+    .feature {
+      background: #0d1117;
+      border: 1px solid #21262d;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      color: #c9d1d9;
+    }
+
+    .feature span { color: #3fb950; margin-left: 0.4rem; }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #238636;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.1s;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .download-btn:hover { background: #2ea043; transform: translateY(-1px); }
+    .download-btn:active { transform: translateY(0); }
+    .download-btn.secondary {
+      background: #21262d;
+      border: 1px solid #30363d;
+      font-size: 0.9rem;
+      padding: 0.75rem 1.5rem;
+    }
+    .download-btn.secondary:hover { background: #30363d; }
+
+    #os-label {
+      font-size: 0.85rem;
+      color: #8b949e;
+      margin-bottom: 1rem;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #21262d;
+      margin: 1.5rem 0;
+    }
+
+    .all-downloads { margin-top: 0.5rem; }
+    .all-downloads summary {
+      cursor: pointer;
+      color: #58a6ff;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .all-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .steps {
+      text-align: right;
+      background: #0d1117;
+      border: 1px solid #21262d;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      line-height: 2;
+      color: #c9d1d9;
+    }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #484f58;
+      text-align: center;
+    }
+    footer a { color: #58a6ff; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">🔄</div>
+    <h1>Claude RTL Patcher</h1>
+    <p class="subtitle">
+      תיקון כיוון טקסט ימין-שמאל (RTL) לאפליקציית Claude Desktop<br>
+      עבור משתמשי עברית וערבית — בטוח, הפיך, ללא שינוי קוד
+    </p>
+
+    <div class="features">
+      <div class="feature"><span>✓</span> גיבוי אוטומטי לפני שינוי</div>
+      <div class="feature"><span>✓</span> שחזור בלחיצה אחת</div>
+      <div class="feature"><span>✓</span> לא קורס את האפליקציה</div>
+      <div class="feature"><span>✓</span> עמיד לעדכוני Claude</div>
+    </div>
+
+    <div class="steps">
+      <strong>איך להתקין:</strong><br>
+      1. סגור את Claude Desktop לחלוטין<br>
+      2. הורד את הקובץ ולחץ עליו<br>
+      3. בחר <strong>"1) Install the RTL patch"</strong><br>
+      4. פתח מחדש את Claude Desktop — נהנה! 🎉
+    </div>
+
+    <p id="os-label">מזהה מערכת הפעלה...</p>
+    <a id="main-btn" class="download-btn" href="#">
+      ⬇ הורד עכשיו
+    </a>
+
+    <hr class="divider" />
+
+    <details class="all-downloads">
+      <summary>כל הגרסאות ▾</summary>
+      <div class="all-links">
+        <a class="download-btn secondary" href="https://github.com/gilslom-netizen/claudertl/releases/latest/download/claude-rtl-patcher-win.exe">
+          🪟 Windows (x64) — .exe
+        </a>
+        <a class="download-btn secondary" href="https://github.com/gilslom-netizen/claudertl/releases/latest/download/claude-rtl-patcher-macos-arm64">
+          🍎 macOS Apple Silicon (M1/M2/M3)
+        </a>
+        <a class="download-btn secondary" href="https://github.com/gilslom-netizen/claudertl/releases/latest/download/claude-rtl-patcher-macos">
+          🍎 macOS Intel (x64)
+        </a>
+      </div>
+    </details>
+  </div>
+
+  <footer>
+    <a href="https://github.com/gilslom-netizen/claudertl">GitHub</a> ·
+    קוד פתוח · MIT License · לא קשור ל-Anthropic
+  </footer>
+
+  <script>
+    const REPO = "https://github.com/gilslom-netizen/claudertl/releases/latest/download";
+    const btn = document.getElementById("main-btn");
+    const label = document.getElementById("os-label");
+    const ua = navigator.userAgent;
+
+    if (/Windows/i.test(ua)) {
+      label.textContent = "זוהה: Windows";
+      btn.href = REPO + "/claude-rtl-patcher-win.exe";
+      btn.innerHTML = "⬇ הורד ל-Windows (.exe)";
+    } else if (/Mac/i.test(ua)) {
+      // Detect Apple Silicon via canvas/platform hints
+      const isArm = /arm/i.test(navigator.platform) ||
+        (typeof navigator.userAgentData !== "undefined" &&
+          navigator.userAgentData.platform === "macOS" &&
+          navigator.userAgentData.architecture === "arm");
+      if (isArm) {
+        label.textContent = "זוהה: macOS Apple Silicon (M1/M2/M3)";
+        btn.href = REPO + "/claude-rtl-patcher-macos-arm64";
+        btn.innerHTML = "⬇ הורד ל-macOS Apple Silicon";
+      } else {
+        label.textContent = "זוהה: macOS Intel";
+        btn.href = REPO + "/claude-rtl-patcher-macos";
+        btn.innerHTML = "⬇ הורד ל-macOS Intel";
+      }
+    } else {
+      label.textContent = "לא זוהתה מערכת הפעלה נתמכת — בחר ידנית:";
+      btn.style.display = "none";
+    }
+  </script>
+</body>
+</html>
