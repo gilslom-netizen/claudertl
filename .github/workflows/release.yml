@@ -7,6 +7,11 @@ on:
   release:
     types: [created]
   workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Release tag to upload assets to (e.g. v1.0.0)'
+        required: true
+        default: 'v1.0.0'
 
 permissions:
   contents: write
@@ -70,12 +75,23 @@ jobs:
         with:
           name: macos-arm64
           path: dist/
-      - name: Create GitHub Release
+      - name: Resolve tag name
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=${{ github.event.inputs.tag_name }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "release" ]; then
+            echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+      - name: Upload assets to release
         uses: softprops/action-gh-release@v2
         with:
-          name: Claude RTL Patcher ${{ github.ref_name }}
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: Claude RTL Patcher ${{ steps.tag.outputs.tag }}
           body: |
-            ## Claude RTL Patcher ${{ github.ref_name }}
+            ## Claude RTL Patcher ${{ steps.tag.outputs.tag }}
 
             Fix RTL (Right-to-Left) text direction for Hebrew/Arabic users in Claude Desktop.
 
