@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build output (compiled standalone executables)
+dist/
+
+# Logs & temp
+*.log
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Never commit a captured asar / backup
+*.asar
+*.asar.bak

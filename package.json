@@ -1,0 +1,52 @@
+{
+  "name": "claude-rtl-patcher",
+  "version": "1.0.0",
+  "description": "A safe, reversible desktop patcher that fixes Right-to-Left (RTL) text direction for Hebrew/Arabic users in the official Claude Desktop app.",
+  "main": "index.js",
+  "bin": {
+    "claude-rtl-patcher": "index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "install:patch": "node index.js --install",
+    "uninstall:patch": "node index.js --uninstall",
+    "build": "npm run build:win && npm run build:mac",
+    "build:win": "pkg . --targets node18-win-x64 --output dist/claude-rtl-patcher-win.exe",
+    "build:mac": "pkg . --targets node18-macos-x64 --output dist/claude-rtl-patcher-macos",
+    "build:mac:arm": "pkg . --targets node18-macos-arm64 --output dist/claude-rtl-patcher-macos-arm64"
+  },
+  "pkg": {
+    "scripts": [
+      "src/**/*.js"
+    ],
+    "assets": [],
+    "targets": [
+      "node18-win-x64",
+      "node18-macos-x64",
+      "node18-macos-arm64"
+    ],
+    "outputPath": "dist"
+  },
+  "keywords": [
+    "claude",
+    "claude-desktop",
+    "rtl",
+    "hebrew",
+    "arabic",
+    "electron",
+    "asar",
+    "patcher",
+    "right-to-left"
+  ],
+  "author": "Open Source Contributors",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "@electron/asar": "^3.2.13"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.1"
+  }
+}
