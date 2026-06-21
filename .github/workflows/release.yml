@@ -1,0 +1,100 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build:win
+      - uses: actions/upload-artifact@v4
+        with:
+          name: win-exe
+          path: dist/claude-rtl-patcher-win.exe
+
+  build-macos-x64:
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build:mac
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-x64
+          path: dist/claude-rtl-patcher-macos
+
+  build-macos-arm64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build:mac:arm
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-arm64
+          path: dist/claude-rtl-patcher-macos-arm64
+
+  release:
+    needs: [build-windows, build-macos-x64, build-macos-arm64]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: win-exe
+          path: dist/
+      - uses: actions/download-artifact@v4
+        with:
+          name: macos-x64
+          path: dist/
+      - uses: actions/download-artifact@v4
+        with:
+          name: macos-arm64
+          path: dist/
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Claude RTL Patcher ${{ github.ref_name }}
+          body: |
+            ## Claude RTL Patcher ${{ github.ref_name }}
+
+            Fix RTL (Right-to-Left) text direction for Hebrew/Arabic users in Claude Desktop.
+
+            ## Download
+            | Platform | File |
+            |---|---|
+            | Windows x64 | `claude-rtl-patcher-win.exe` |
+            | macOS Intel | `claude-rtl-patcher-macos` |
+            | macOS Apple Silicon | `claude-rtl-patcher-macos-arm64` |
+
+            ## How to use
+            1. **Close Claude Desktop completely**
+            2. Run the downloaded file
+            3. Choose **1) Install the RTL patch**
+            4. Restart Claude Desktop
+
+            To undo: run again and choose **2) Restore / Uninstall**
+
+            > macOS: you may need `sudo ./claude-rtl-patcher-macos` if Claude is in `/Applications`
+          files: |
+            dist/claude-rtl-patcher-win.exe
+            dist/claude-rtl-patcher-macos
+            dist/claude-rtl-patcher-macos-arm64
+          draft: false
+          prerelease: false
