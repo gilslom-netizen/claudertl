@@ -46,6 +46,7 @@
       margin-bottom: 2rem;
       font-size: 1rem;
       line-height: 1.6;
+      unicode-bidi: plaintext;
     }
 
     .features {
@@ -53,7 +54,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 0.75rem;
       margin-bottom: 2rem;
-      text-align: right;
+      text-align: start;
     }
 
     .feature {
@@ -63,9 +64,10 @@
       padding: 0.75rem 1rem;
       font-size: 0.875rem;
       color: #c9d1d9;
+      unicode-bidi: plaintext;
     }
 
-    .feature span { color: #3fb950; margin-left: 0.4rem; }
+    .feature span { color: #3fb950; margin-inline-end: 0.4rem; }
 
     .download-btn {
       display: inline-flex;
@@ -100,6 +102,7 @@
       font-size: 0.85rem;
       color: #8b949e;
       margin-bottom: 1rem;
+      unicode-bidi: plaintext;
     }
 
     .divider {
@@ -124,7 +127,7 @@
     }
 
     .steps {
-      text-align: right;
+      text-align: start;
       background: #0d1117;
       border: 1px solid #21262d;
       border-radius: 8px;
@@ -133,13 +136,21 @@
       font-size: 0.875rem;
       line-height: 2;
       color: #c9d1d9;
+      unicode-bidi: plaintext;
     }
+
+    .steps ol {
+      margin: 0.5rem 0 0;
+      padding-inline-start: 1.5rem;
+    }
+    .steps li { unicode-bidi: plaintext; }
 
     footer {
       margin-top: 2rem;
       font-size: 0.8rem;
       color: #484f58;
       text-align: center;
+      unicode-bidi: plaintext;
     }
     footer a { color: #58a6ff; text-decoration: none; }
   </style>
@@ -156,16 +167,18 @@
     <div class="features">
       <div class="feature"><span>✓</span> גיבוי אוטומטי לפני שינוי</div>
       <div class="feature"><span>✓</span> שחזור בלחיצה אחת</div>
-      <div class="feature"><span>✓</span> לא קורס את האפליקציה</div>
+      <div class="feature"><span>✓</span> לא מקריס את האפליקציה</div>
       <div class="feature"><span>✓</span> עמיד לעדכוני Claude</div>
     </div>
 
     <div class="steps">
-      <strong>איך להתקין:</strong><br>
-      1. סגור את Claude Desktop לחלוטין<br>
-      2. הורד את הקובץ ולחץ עליו<br>
-      3. בחר <strong>"1) Install the RTL patch"</strong><br>
-      4. פתח מחדש את Claude Desktop — נהנה! 🎉
+      <strong>איך מתקינים:</strong>
+      <ol>
+        <li>סוגרים את Claude Desktop לחלוטין</li>
+        <li>מורידים את הקובץ ולוחצים עליו</li>
+        <li>בוחרים <strong>"1) Install the RTL patch"</strong></li>
+        <li>פותחים מחדש את Claude Desktop — תהנו! 🎉</li>
+      </ol>
     </div>
 
     <p id="os-label">מזהה מערכת הפעלה...</p>
