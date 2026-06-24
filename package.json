@@ -1,6 +1,6 @@
 {
   "name": "claude-rtl-patcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A safe, reversible desktop patcher that fixes Right-to-Left (RTL) text direction for Hebrew/Arabic users in the official Claude Desktop app.",
   "main": "index.js",
   "bin": {

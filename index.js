@@ -192,6 +192,41 @@ function ask(question) {
   });
 }
 
+/**
+ * Keep the console window open until the user acknowledges.
+ *
+ * On Windows a double-clicked .exe runs in a console that closes the instant
+ * the process exits — which would hide every success/error message. We pause
+ * so the user can actually read the result. Only pauses for interactive
+ * (double-click style) launches; piped/CI usage and explicit CLI flags exit
+ * immediately as expected.
+ */
+function pauseBeforeExit() {
+  return new Promise((resolve) => {
+    try {
+      if (!process.stdin.isTTY) return resolve();
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+      rl.question(
+        '\n  ' + paint('cyan', 'Press Enter to close this window…'),
+        () => {
+          rl.close();
+          resolve();
+        }
+      );
+    } catch (_) {
+      resolve();
+    }
+  });
+}
+
+/** True when launched with no CLI flags (i.e. likely a double-click). */
+function launchedInteractively() {
+  return process.argv.slice(2).length === 0;
+}
+
 async function runMenu() {
   printHeader();
   logger.raw(`
@@ -252,12 +287,20 @@ async function main() {
       break;
   }
 
+  // Keep the window open for double-click launches so the result is readable.
+  if (launchedInteractively()) {
+    await pauseBeforeExit();
+  }
   process.exit(exitCode);
 }
 
 // Top-level safety net: even an unexpected bug prints a calm message, not a
 // raw stack trace, and exits cleanly.
-main().catch((err) => {
+main().catch(async (err) => {
   logger.error('Unexpected error: ' + (err && err.message ? err.message : err));
+  // Don't let the error vanish with the console window.
+  if (launchedInteractively()) {
+    await pauseBeforeExit();
+  }
   process.exit(1);
 });
